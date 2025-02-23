@@ -1,9 +1,9 @@
 <?php
-namespace Opencart\catalog\controller\startup;
+namespace Opencart\Catalog\Controller\Startup;
 /**
  * Class Authorize
  *
- * @package Opencart\Admin\Controller\Startup
+ * @package Opencart\Catalog\Controller\Startup
  */
 class Authorize extends \Opencart\System\Engine\Controller {
 	/**
@@ -32,23 +32,21 @@ class Authorize extends \Opencart\System\Engine\Controller {
 		}
 
 		$ignore = [
-			'account/login',
-			'account/logout',
-			'account/forgotten',
-			'account/authorize'
+			'account/authorize',
+			'account/logout'
 		];
 
-		if ($this->config->get('config_security') && !in_array($route, $ignore)) {
-			$this->load->model('user/user');
+		if ($this->config->get('config_2fa') && $this->customer->isLogged() && !in_array($route, $ignore)) {
+			$this->load->model('account/customer');
 
-			$token_info = $this->model_user_user->getAuthorizeByToken($this->user->getId(), $token);
-
-			if (!$token_info || !$token_info['status'] && $token_info['attempts'] <= 2) {
-				return new \Opencart\System\Engine\Action('common/authorize');
-			}
+			$token_info = $this->model_account_customer->getAuthorizeByToken($this->customer->getId(), $token);
 
 			if ($token_info && !$token_info['status'] && $token_info['attempts'] > 2) {
-				return new \Opencart\System\Engine\Action('common/authorize.unlock');
+				return new \Opencart\System\Engine\Action('account/authorize.unlock');
+			}
+
+			if (!$token_info || !$token_info['status'] && $token_info['attempts'] <= 2) {
+				return new \Opencart\System\Engine\Action('account/authorize');
 			}
 		}
 

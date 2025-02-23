@@ -11,7 +11,7 @@ class Module extends \Opencart\System\Engine\Model {
 	/**
 	 * Get Module
 	 *
-	 * @param int $module_id primary key of the Module record
+	 * @param int $module_id primary key of the module record
 	 *
 	 * @return array<mixed> module record that has module ID
 	 *
@@ -25,7 +25,7 @@ class Module extends \Opencart\System\Engine\Model {
 		$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "module` WHERE `module_id` = '" . (int)$module_id . "'");
 
 		if ($query->row) {
-			return json_decode($query->row['setting'], true);
+			return $query->row['setting'] ? json_decode($query->row['setting'], true) : [];
 		} else {
 			return [];
 		}

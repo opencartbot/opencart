@@ -1053,7 +1053,7 @@ function oc_db_schema() {
 			],
 			[
 				'name' => 'override',
-				'type' => 'tinyint(1)'
+				'type' => 'text'
 			],
 			[
 				'name' => 'price',
@@ -2057,6 +2057,10 @@ function oc_db_schema() {
 			],
 			[
 				'name' => 'date_added',
+				'type' => 'datetime'
+			],
+			[
+				'name' => 'date_expire',
 				'type' => 'datetime'
 			]
 		],
@@ -3954,6 +3958,10 @@ function oc_db_schema() {
 			[
 				'name' => 'type',
 				'type' => 'varchar(32)'
+			],
+			[
+				'name' => 'validation',
+				'type' => 'varchar(255)'
 			],
 			[
 				'name' => 'sort_order',
@@ -7304,6 +7312,10 @@ function oc_db_schema() {
 			],
 			[
 				'name' => 'date_added',
+				'type' => 'datetime'
+			],
+			[
+				'name' => 'date_expire',
 				'type' => 'datetime'
 			]
 		],

@@ -35,7 +35,8 @@ $_['action_pre_action']  = [
 	'startup/event',
 	'startup/sass',
 	'startup/api',
-	'startup/maintenance'
+	'startup/maintenance',
+	'startup/authorize'
 ];
 
 // Action Events
@@ -43,11 +44,11 @@ $_['action_event']      = [
 	'controller/*/before' => [
 		0 => 'event/modification.controller',
 		1 => 'event/language.before',
-		//	2 => 'event/debug.before'
+		//2 => 'event/debug.before'
 	],
 	'controller/*/after' => [
 		0 => 'event/language.after',
-		//	2 => 'event/debug.after'
+		//2 => 'event/debug.after'
 	],
 	'view/*/before' => [
 		0   => 'event/modification.view',

@@ -31,7 +31,7 @@ class Product extends \Opencart\System\Engine\Model {
 	/**
 	 * Edit Product Quantity
 	 *
-	 * @param int                  $product_id
+	 * @param int                  $product_id primary key of the product record
 	 * @param int                  $quantity
 	 * @param array<string, mixed> $data       array of data
 	 *
@@ -66,8 +66,8 @@ class Product extends \Opencart\System\Engine\Model {
 		if ($query->num_rows) {
 			$product_data = $query->row;
 
-			$product_data['variant'] = (array)json_decode($query->row['variant'], true);
-			$product_data['override'] = (array)json_decode($query->row['override'], true);
+			$product_data['variant'] = $query->row['variant'] ? json_decode($query->row['variant'], true) : [];
+			$product_data['override'] = $query->row['override'] ? json_decode($query->row['override'], true) : [];
 			$product_data['price'] = (float)($query->row['discount'] ?: $query->row['price']);
 			$product_data['rating'] = (int)$query->row['rating'];
 			$product_data['reviews'] = (int)$query->row['reviews'] ? $query->row['reviews'] : 0;
@@ -210,7 +210,7 @@ class Product extends \Opencart\System\Engine\Model {
 			if ($data['sort'] == 'pd.name' || $data['sort'] == 'p.model') {
 				$sql .= " ORDER BY LCASE(" . $data['sort'] . ")";
 			} elseif ($data['sort'] == 'p.price') {
-				$sql .= " ORDER BY (CASE WHEN `special` IS NOT NULL THEN `special` CASE WHEN `discount` IS NOT NULL THEN `discount` ELSE `p`.`price` END)";
+				$sql .= " ORDER BY (CASE WHEN `special` IS NOT NULL THEN `special` WHEN `discount` IS NOT NULL THEN `discount` ELSE `p`.`price` END)";
 			} else {
 				$sql .= " ORDER BY " . $data['sort'];
 			}

@@ -9,12 +9,6 @@
           <div class="card-header"><i class="fa-solid fa-lock"></i> {{ heading_title }}</div>
           <div class="card-body">
             <form id="form-authorize" action="{{ action }}" method="post" data-oc-toggle="ajax">
-              {% if error_warning %}
-                <div class="alert alert-danger alert-dismissible"><i class="fa-solid fa-circle-exclamation"></i> {{ error_warning }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-              {% endif %}
-              {% if success %}
-                <div class="alert alert-success alert-dismissible"><i class="fa-solid fa-check-circle"></i> {{ success }} <button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>
-              {% endif %}
               <p>{{ text_security }}</p>
               <p>{{ text_code }}</p>
               <div class="mb-3">
@@ -43,7 +37,7 @@ $('#button-send').on('click', function(e) {
     e.preventDefault();
 
     $.ajax({
-        url: 'index.php?route=common/authorize.send&user_token={{ user_token }}',
+        url: 'index.php?route=account/authorize.send&customer_token={{ customer_token }}',
         dataType: 'json',
         beforeSend: function() {
             $('#button-send').button('loading');
@@ -72,7 +66,9 @@ $('#button-send').on('click', function(e) {
     });
 });
 
-$('#button-send').trigger('click');
+$(document).ready(function() {
+    $('#button-send').trigger('click');
+});
 //--></script>
 {{ footer }}
 

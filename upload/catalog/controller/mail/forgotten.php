@@ -19,7 +19,25 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 	 * @return void
 	 */
 	public function index(string &$route, array &$args, &$output): void {
-		if ($args[0] && $args[1]) {
+		if (isset($this->request->get['route'])) {
+			$route = (string)$this->request->get['route'];
+		} else {
+			$route = '';
+		}
+
+		if (isset($args[0])) {
+			$email = urldecode((string)$args[0]);
+		} else {
+			$email = '';
+		}
+
+		if (isset($args[1])) {
+			$code = (string)$args[1];
+		} else {
+			$code = '';
+		}
+
+		if ($email && $code && ($route == 'account/forgotten.confirm') && filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$this->load->model('account/customer');
 
 			$customer_info = $this->model_account_customer->getCustomerByEmail($args[0]);
@@ -50,7 +68,7 @@ class Forgotten extends \Opencart\System\Engine\Controller {
 					];
 
 					$mail = new \Opencart\System\Library\Mail($this->config->get('config_mail_engine'), $mail_option);
-					$mail->setTo($args[0]);
+					$mail->setTo($email);
 					$mail->setFrom($this->config->get('config_email'));
 					$mail->setSender($store_name);
 					$mail->setSubject($subject);
